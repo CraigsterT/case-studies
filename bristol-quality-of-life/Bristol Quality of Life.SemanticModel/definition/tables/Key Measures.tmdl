@@ -1,0 +1,124 @@
+table 'Key Measures'
+	lineageTag: bf80f038-49fd-4b1c-a4bd-077c32f4db48
+
+	/// Ward value for the single selected survey question. Blank unless exactly one question is selected. Uses the latest selected year (latest available for the question if no year is picked).
+	measure 'Survey Value' =
+			VAR QuestionCount =
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'Bristol_Quality_of_Life_data_(2024_25)'[Public_Title] ),
+			        ALL ( 'Sheet' )
+			    )
+			VAR ShownYear =
+			    CALCULATE (
+			        MAX ( 'Bristol_Quality_of_Life_data_(2024_25)'[Year] ),
+			        ALL ( 'Sheet' )
+			    )
+			RETURN
+			    IF (
+			        QuestionCount = 1,
+			        CALCULATE (
+			            AVERAGE ( 'Bristol_Quality_of_Life_data_(2024_25)'[Ward_Group_Statistic] ),
+			            'Bristol_Quality_of_Life_data_(2024_25)'[Year] = ShownYear
+			        )
+			    )
+		formatString: 0.0"%"
+		displayFolder: Survey
+		lineageTag: 9ba707b5-acf6-4340-8f30-90478e392a42
+
+	/// Selected survey question text for the page title, or a prompt if none/several are selected.
+	measure 'Survey Title' =
+			SELECTEDVALUE (
+			    'Bristol_Quality_of_Life_data_(2024_25)'[Public_Title],
+			    "Select a question"
+			)
+		displayFolder: Survey
+		lineageTag: eab95a46-3ed7-424e-a175-dc91ebe4e38b
+
+	/// Year being shown on the map for the selected question.
+	measure 'Survey Year' =
+			VAR QuestionCount =
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'Bristol_Quality_of_Life_data_(2024_25)'[Public_Title] ),
+			        ALL ( 'Sheet' )
+			    )
+			RETURN
+			    IF (
+			        QuestionCount = 1,
+			        CALCULATE (
+			            MAX ( 'Bristol_Quality_of_Life_data_(2024_25)'[Year] ),
+			            ALL ( 'Sheet' )
+			        )
+			    )
+		formatString: 0
+		displayFolder: Survey
+		lineageTag: 918491dd-670e-4d04-8f20-1cf6dd561b5d
+
+	/// Bristol-wide average for the selected question and year, for the tooltip.
+	measure 'Survey Bristol Average' =
+			VAR QuestionCount =
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'Bristol_Quality_of_Life_data_(2024_25)'[Public_Title] ),
+			        ALL ( 'Sheet' )
+			    )
+			VAR ShownYear =
+			    CALCULATE (
+			        MAX ( 'Bristol_Quality_of_Life_data_(2024_25)'[Year] ),
+			        ALL ( 'Sheet' )
+			    )
+			RETURN
+			    IF (
+			        QuestionCount = 1,
+			        CALCULATE (
+			            AVERAGE ( 'Bristol_Quality_of_Life_data_(2024_25)'[Bristol_average] ),
+			            'Bristol_Quality_of_Life_data_(2024_25)'[Year] = ShownYear,
+			            ALL ( 'Sheet' )
+			        )
+			    )
+		formatString: 0.0"%"
+		displayFolder: Survey
+		lineageTag: 22e01f60-5e4f-4a82-b5ff-a4230d5e46c4
+
+	/// Better / Worse / No difference versus the Bristol average for the ward, selected question and year, for the tooltip.
+	measure 'Survey Significance' =
+			VAR QuestionCount =
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'Bristol_Quality_of_Life_data_(2024_25)'[Public_Title] ),
+			        ALL ( 'Sheet' )
+			    )
+			VAR ShownYear =
+			    CALCULATE (
+			        MAX ( 'Bristol_Quality_of_Life_data_(2024_25)'[Year] ),
+			        ALL ( 'Sheet' )
+			    )
+			RETURN
+			    IF (
+			        QuestionCount = 1,
+			        CALCULATE (
+			            SELECTEDVALUE ( 'Bristol_Quality_of_Life_data_(2024_25)'[Statistical_Significance] ),
+			            'Bristol_Quality_of_Life_data_(2024_25)'[Year] = ShownYear
+			        )
+			    )
+		displayFolder: Survey
+		lineageTag: bb846353-8837-4f41-b69d-90de9d246674
+
+	column Column1
+		dataType: string
+		lineageTag: dbfecd6a-ad77-4818-87b1-999e6caed261
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	partition 'Key Measures-e3c08b8a-74a3-4743-8840-9dc1e86e77d2' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

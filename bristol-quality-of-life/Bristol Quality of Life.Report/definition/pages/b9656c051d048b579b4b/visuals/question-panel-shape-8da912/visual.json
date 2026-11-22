@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "question-panel-shape-8da912",
+  "position": {
+    "x": 16,
+    "y": 92,
+    "z": 6000,
+    "height": 656,
+    "width": 740,
+    "tabOrder": 2000
+  },
+  "visualGroup": {
+    "displayName": "Question panel",
+    "groupMode": "ScaleMode"
+  },
+  "isHidden": true
+}

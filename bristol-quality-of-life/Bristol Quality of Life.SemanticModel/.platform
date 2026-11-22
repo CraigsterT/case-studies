@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Bristol Quality of Life"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "1a63606c-27cc-4a44-89d3-ec121b1e3fe5"
+  }
+}

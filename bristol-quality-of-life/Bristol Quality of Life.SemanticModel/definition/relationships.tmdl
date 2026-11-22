@@ -1,0 +1,4 @@
+relationship 'Bristol_Quality_of_Life_data_(2024_25)_Ward_e_codes_Sheet_Ward ID'
+	fromColumn: Bristol_Quality_of_Life_data_(2024_25).Ward_e_codes
+	toColumn: Sheet.'Ward ID'
+

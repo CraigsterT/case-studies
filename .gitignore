@@ -1,0 +1,9 @@
+# Power BI local/cache files
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+
+# Large source data is downloaded by the user (see each project's README), not committed
+**/data/Bristol_Quality_of_Life_data_*.csv
+
+# Working backups
+_backup*/

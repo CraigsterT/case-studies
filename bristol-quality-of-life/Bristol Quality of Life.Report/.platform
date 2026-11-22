@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Bristol Quality of Life"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "cd802d05-ab56-40ec-81f6-5b3786e7d67d"
+  }
+}

@@ -1,0 +1,5 @@
+expression DataFolder = "C:\github\case-studies\bristol-quality-of-life\data" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 3219f73d-9a4b-4533-8f91-79b7d84f4c83
+
+	annotation PBI_ResultType = Text
+

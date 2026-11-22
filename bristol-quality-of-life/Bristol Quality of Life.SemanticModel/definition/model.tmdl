@@ -1,0 +1,20 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-GB
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["DataFolder","Sheet","Key Measures","Bristol_Quality_of_Life_data_(2024_25)"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode","MCP-PBIModeling"]
+
+ref table Sheet
+ref table 'Key Measures'
+ref table Bristol_Quality_of_Life_data_(2024_25)
+
+ref cultureInfo en-US
+

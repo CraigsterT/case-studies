@@ -1,0 +1,115 @@
+table Bristol_Quality_of_Life_data_(2024_25)
+	lineageTag: 55bfceb6-75e0-42b1-9b72-b318106bca09
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 4159e314-c234-41a8-90b7-fb21709c639c
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Indicator_Reference_Number
+		dataType: string
+		lineageTag: cd401805-fd6f-497c-90c4-93b0a1dfa858
+		summarizeBy: none
+		sourceColumn: Indicator_Reference_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Public_Title
+		dataType: string
+		lineageTag: ef7b1a17-ac44-4dae-9cd5-63622321c863
+		summarizeBy: none
+		sourceColumn: Public_Title
+
+		annotation SummarizationSetBy = Automatic
+
+	column Theme
+		dataType: string
+		lineageTag: c990b16c-9a0d-432e-9d8e-50102d3e93f7
+		summarizeBy: none
+		sourceColumn: Theme
+
+		annotation SummarizationSetBy = Automatic
+
+	column Polarity
+		dataType: string
+		lineageTag: 1deaad35-29d3-49b9-99bf-6f1ebddde147
+		summarizeBy: none
+		sourceColumn: Polarity
+
+		annotation SummarizationSetBy = Automatic
+
+	column Bristol_average
+		dataType: double
+		lineageTag: ae640315-1f76-4ccf-802f-3b077b16cf34
+		summarizeBy: sum
+		sourceColumn: Bristol_average
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Ward_e_codes
+		dataType: string
+		lineageTag: 2e96ad2a-477f-4398-92ad-1acea880e771
+		summarizeBy: none
+		sourceColumn: Ward_e_codes
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ward_Group_Statistic
+		dataType: double
+		lineageTag: 20c865b5-17c1-4d77-889c-7065ecfa5064
+		summarizeBy: sum
+		sourceColumn: Ward_Group_Statistic
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Sample_Size_response
+		dataType: int64
+		formatString: 0
+		lineageTag: 47550d66-1d2c-4e18-8181-b352f3443800
+		summarizeBy: sum
+		sourceColumn: Sample_Size_response
+
+		annotation SummarizationSetBy = Automatic
+
+	column Statistical_Significance
+		dataType: string
+		lineageTag: 88ebca66-544d-443d-9d25-ad65e2074d2f
+		summarizeBy: none
+		sourceColumn: Statistical_Significance
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gap
+		dataType: double
+		lineageTag: 74d262e7-30b1-4d64-af88-ecc5810592d8
+		summarizeBy: sum
+		sourceColumn: Gap
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Bristol_Quality_of_Life_data_(2024_25) = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\Bristol_Quality_of_Life_data_(2024_25).csv"),[Delimiter=",", Columns=25, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Year", Int64.Type}, {"Indicator_Reference_Number", type text}, {"Priority_Indicator", type logical}, {"Public_Title", type text}, {"Theme", type text}, {"Polarity", type text}, {"Bristol_average", type number}, {"Sample_Size", Int64.Type}, {"Standard_Error", type number}, {"Lower_Confidence_Limit", type number}, {"Upper_Confidence_Limit", type number}, {"Ward_name", type text}, {"Ward_e_codes", type text}, {"Group_", type text}, {"ICS_name", type text}, {"ICS_code", type text}, {"Ward_Group_Statistic", type number}, {"Standard_Error_1", type number}, {"Lower_Confidence_Limit_2", type number}, {"Upper_Confidence_Limit_3", type number}, {"Sample_Size_response", Int64.Type}, {"p_value", type text}, {"Statistical_Significance", type text}, {"Gap", type number}, {"FID", Int64.Type}}),
+				    #"Kept Ward Rows With A Value" = Table.SelectRows(#"Changed Type", each [Ward_e_codes] <> null and [Ward_e_codes] <> "" and [Ward_Group_Statistic] <> null),
+				    #"Removed Unused Columns" = Table.RemoveColumns(#"Kept Ward Rows With A Value", {"Priority_Indicator", "Sample_Size", "Standard_Error", "Lower_Confidence_Limit", "Upper_Confidence_Limit", "Ward_name", "Group_", "ICS_name", "ICS_code", "Standard_Error_1", "Lower_Confidence_Limit_2", "Upper_Confidence_Limit_3", "p_value", "FID"}, MissingField.Ignore)
+				in
+				    #"Removed Unused Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
