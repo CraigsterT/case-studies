@@ -12,3 +12,5 @@ A growing collection of small data and analytics projects, mostly built with Pow
 
 - Data licences and attributions are listed in each project's README. Source data that cannot be redistributed is not committed; each project explains where to get it.
 - Projects are saved in Power BI's text-based PBIP format, so the model and report definitions can be read and compared in Git.
+- The MIT licence in this repo covers my own code, report and model definitions. It does not cover third-party data, which stays under its original licence (see each project's README).
+- These projects are independent and are not affiliated with or endorsed by Bristol City Council or any data publisher.
